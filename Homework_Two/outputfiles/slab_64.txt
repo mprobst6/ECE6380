@@ -1,0 +1,7 @@
+Reflection
+Magntiude: 0.40356982
+Phase: 60.281513
+
+Transmission
+Magnitude: 0.91494846
+Phase: 150.28151
