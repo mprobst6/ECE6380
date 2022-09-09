@@ -59,29 +59,33 @@ function scattering(params, sim_stuff)
         if row == 1
             # define difference sizes
             delta_R = nodes[row+1]-nodes[row]
+            print("\nrow",row,"   delta_R: ",round(delta_R; digits=3))
 
             # fill global matrix
-            Z[row,row] = -1/delta_R^2 + (k0^2)*epsilon[row]/3 - im*k0/delta_R
-            Z[row,row+1] = 1/delta_R^2 + (k0^2)*epsilon[row]/6
+            Z[row,row] = 1/delta_R - (k0^2)*delta_R*epsilon[row]/3 + im*k0
+            Z[row,row+1] = -1/delta_R - (k0^2)*delta_R*epsilon[row]/6
 
             # fill excitation vector (right hand side)
-            R[row] = -im*2*k0/delta_R
+            R[row] = im*2*k0
         elseif row == n_nodes
             # define difference sizes
             delta_L = nodes[row] - nodes[row-1]
+            print("\nrow",row,"   delta_L: ",round(delta_L;digits=3))
 
             # fill global matrix
-            Z[row,row-1] = 1/delta_L^2 + (k0^2)*epsilon[row-1]/6
-            Z[row,row] = -1/delta_L^2 + (k0^2)*epsilon[row-1]/3 - im*k0/delta_L
+            Z[row,row-1] = -1/delta_L - (k0^2)*delta_L*epsilon[row-1]/6
+            Z[row,row] = 1/delta_L - (k0^2)*delta_L*epsilon[row-1]/3 + im*k0
         else
             # define difference sizes
             delta_R = nodes[row+1] - nodes[row]
             delta_L = nodes[row] - nodes[row-1]
+            print("\nrow",row,"   delta_L: ", round(delta_L;digits=3), "  and   delta_R: ",round(delta_R;digits=3))
+
 
             # fill global matrix
-            Z[row,row-1] = 1/delta_L^2 + (k0^2)*epsilon[row-1]/6
-            Z[row,row] = -1/delta_L^2 - 1/delta_R^2 + (k0^2)*(epsilon[row-1]+epsilon[row])/3
-            Z[row,row+1] = 1/delta_R^2 + (k0^2)*epsilon[row]/6
+            Z[row,row-1] = -1/delta_L - (k0^2)*delta_L*epsilon[row-1]/6
+            Z[row,row] = 1/delta_L + 1/delta_R - (k0^2)*( (epsilon[row-1]*delta_L) + (epsilon[row]*delta_R) )/3
+            Z[row,row+1] = -1/delta_R - (k0^2)*epsilon[row]*delta_R/6
         end
     end
 
@@ -119,7 +123,7 @@ function save_data(field, sim_stuff, coding_output)
     plot(nodes)
     savefig("nodes.png")
 
-    plot(epsilon)
+    plot(nodes[1:end-1],epsilon)
     savefig("epsilon.png")
 
     gamma = field[1] - 1
@@ -155,7 +159,7 @@ end
 ##########################################
 
 # input file 1
-if false
+if true
     coding_input = "inputfiles/inputfil_1.txt"
     coding_output = "outputfiles/outputfil_1.txt"
     
@@ -165,7 +169,7 @@ if false
 end
 
 # input file 2
-if false
+if true
     coding_input = "inputfiles/inputfil_2.txt"
     coding_output = "outputfiles/outputfil_2.txt"
     
@@ -179,7 +183,7 @@ end
 ######################################
 ### Regular Assignment Problem One ###
 ######################################
-if true
+if false
     gamma = Array{Complex{Float64},1}(undef,6)
     tau = Array{Complex{Float64},1}(undef,6)
     

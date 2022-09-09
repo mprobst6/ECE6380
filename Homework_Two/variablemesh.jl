@@ -38,6 +38,11 @@ if true # true
     mesh_vals = vec([0 0.05 0.1 0.15 0.2 0.22 0.24 0.26 0.28 0.3 0.32 0.34 0.36 0.38 0.4 0.42 0.44 0.46 0.48 0.5 0.52 0.54 0.56 0.58 0.6 0.65 0.7 0.75 0.8])
     eps_vals = [range(start=1,stop=1,length=4); range(start=5,stop=5,length=20); range(start=1,stop=1,length=4)]
 
+
+    # try without a variable mesh...if I get closer to their thing or magnitude
+    # mesh_vals = range(start=0,stop=0.8,length=n_nodes)
+    # eps_vals = [range(start=1,stop=1,length=20); range(start=5,stop=5,length=40); range(start=1,stop=1,length=20)]
+
     input_array = [n_nodes 0; mesh_idxs mesh_vals; eps_idxs eps_vals]
 
     variable_mesh(input_array,"inputfil_2")
