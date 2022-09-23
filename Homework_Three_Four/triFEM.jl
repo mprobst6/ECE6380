@@ -2,6 +2,8 @@ using DelimitedFiles
 using Plots
 using Images
 
+include("conjgrad.jl")
+
 function TriFEM(input_file)
 
     # read the mesh from the text file
@@ -126,18 +128,29 @@ function TriFEM(input_file)
         end
     end
 
+
+    CG_Pot = ones(length(V))
+    CG_Pot = conjgrad(W,V,CG_Pot)
+
     Pot = W\V
 
 
     Pot = [Pot; ones(nouter); zeros(ninner)]
+    CG_Pot = [CG_Pot; ones(nouter); zeros(ninner)]
      
     Cap = (Pot')*Wtilda*Pot
 
+    CG_Cap = (CG_Pot')*Wtilda*Pot
+
     str = string("Capacitance/epsilon0 pul = ",Cap,"\n")
+    CG_str = string("Capacitance/epsilon w/conjgrad = ",CG_Cap,"\n")
+    ground_truth = 2*pi/(log(2.5))
     
-    print(ncells,"\n")
+    # print(ncells,"\n")
     print(str)
-    print("Error: ",100*(Cap/4.532360142 - 1),"\n")
+    print(CG_str)
+    print("Error of conjugate gradient: ",(1.0-(CG_Cap/ground_truth))*100,"%\n")
+
     open("potfil_jl.txt","w") do io
         write(io,str)  
         str = "node   Potential\n"

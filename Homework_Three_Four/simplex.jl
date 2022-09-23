@@ -44,10 +44,10 @@ end
 
 ### MAIN ###
 # PART A
-L1::Float64 = 0.6
-L2::Float64 = 0.2
-L3::Float64 = 0.2
-vertices = [2 0; 1 sqrt(3); 0 0]
+L1::Float64 = 0.33333333333
+L2::Float64 = 0.33333333333
+L3::Float64 = 0.33333333333
+vertices = [0 0; 0.5 1; 1 0]
 x,y = cartesian_from_simplex(L1, L2, L3)
 print("x: ",x,"\ny: ",y,"\n")
 
