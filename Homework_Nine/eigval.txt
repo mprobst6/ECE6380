@@ -1,0 +1,16 @@
+Eigenvalue = 1.0244
+
+Eigenvalue = 1.1119
+
+Eigenvalue = 1.1119
+
+Eigenvalue = 1.33
+
+Eigenvalue = 1.33
+
+Eigenvalue = 1.33
+
+Eigenvalue = 1.33
+
+node    Potential
+
